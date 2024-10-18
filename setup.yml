@@ -6,5 +6,5 @@
   become: no
   gather_facts: no
   roles:
-    - homebrew
+    # - homebrew
     - zsh
