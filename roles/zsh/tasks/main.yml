@@ -24,10 +24,10 @@
   shell: git clone https://github.com/anyenv/anyenv-install ~/.config/anyenv/anyenv-install
 
 - name: Install Pyenv
-  command: anyenv install pyenv -f && exec $SHELL -l
+  command: anyenv install pyenv -f
 
 - name: pyenv install python 3.12.4
-  command: pyenv install 3.12.4 -s
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv install 3.12.4 -s
   timeout: 600
 
 - name: Write pyenv init scripts to ~/.zshrc
@@ -35,10 +35,10 @@
   run_once: true
 
 - name: pyenv global 3.12.4
-  command: pyenv global 3.12.4
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv global 3.12.4
 
 - name: pyenv rehash
-  command: pyenv rehash
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv rehash
 
 - name: Install Poetry
   shell: 'zsh -c "curl -sSL https://install.python-poetry.org | python3.12 -"'
@@ -73,6 +73,7 @@
 
 - name: Protobuf setup (protoc link)
   shell: mkdir -p ${HOME}/.local/bin && ln -s ${HOME}/.local/opt/protobuf/bin/* ${HOME}/.local/bin/
+  ignore_errors: yes
 
 - name: Protobuf setup (protoc path add)
   shell: echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
@@ -81,7 +82,7 @@
   shell: echo 'export PKG_CONFIG_PATH="${HOME}/.local/opt/protobuf/lib/pkgconfig:${PKG_CONFIG_PATH}"' >> ~/.bashrc
   
 - name: AI setup
-  shell: "poetry env use 3.12.4 && poetry install"
+  shell: "source ~/.zshrc && source ~/.zprofile && poetry env use 3.12.4 && poetry install"
   args:
     chdir: ./ssl-RACOON-AI
   timeout: 600
