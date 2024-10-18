@@ -1,0 +1,21 @@
+---
+# file: ~/setup/roles/homebrew/vars/main.yml
+
+packages:
+  - { name: git, state: present }
+  - { name: anyenv, state: present }
+  - { name: gh, state: present }
+  - { name: openssl@1.1, state: present }
+  - { name: readline, state: present }
+  - { name: autoconf, state: present }
+  - { name: automake, state: present }
+  - { name: libtool, state: present }
+  - { name: cmake, state: present }
+  - { name: boost, state: present }
+  - { name: qt, state: present }
+  - { name: eigen, state: present }
+  - { name: yaml-cpp, state: present }
+  - { name: vulkan-volk, state: present }
+  - { name: pkg-config, state: present }
+  - { name: ode, state: present }
+  - { name: qt@5, state: present }

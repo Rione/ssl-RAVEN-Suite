@@ -1,0 +1,10 @@
+---
+- name: racoon-installer
+  hosts: localhost
+  connection: local
+  # sudo実行有無（しないのでno）
+  become: no
+  gather_facts: no
+  roles:
+    - homebrew
+    - zsh
