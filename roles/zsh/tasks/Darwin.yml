@@ -1,0 +1,124 @@
+- name: Write anyenv init scripts to ~/.zshrc
+  lineinfile: path=~/.zshrc line='eval "$(anyenv init -)"' create=yes
+  run_once: true
+
+- name: Username Setting
+  pause:
+    prompt: "GitHub ユーザー名を指定してください: "
+  register: usernameinput
+
+- name: Email Setting
+  pause:
+    prompt: "GitHub メールアドレスを指定してください: "
+  register: emailinput
+
+- name: Git Username and Email setting
+  shell: git config --global user.email "{{ emailinput.user_input }}" && git config --global user.name "{{ usernameinput.user_input }}"
+
+- name: anyenv checkout check
+  # if exists delete directory
+  shell: "[ -e ~/.config/anyenv/anyenv-install ] && rm -rf ~/.config/anyenv/anyenv-install"
+  ignore_errors: yes
+
+- name: anyenv checkout
+  shell: git clone https://github.com/anyenv/anyenv-install ~/.config/anyenv/anyenv-install
+
+- name: Install Pyenv
+  command: anyenv install pyenv -f
+
+- name: Write pyenv init scripts to ~/.zshrc (1)
+  lineinfile: path=~/.zshrc line='export PYENV_ROOT="$HOME/.pyenv"' create=yes
+
+- name: Write pyenv init scripts to ~/.zshrc (2)
+  lineinfile: path=~/.zshrc line='[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' create=yes
+
+- name: Write pyenv init scripts to ~/.zshrc (3)
+  lineinfile: path=~/.zshrc line='eval "$(pyenv init --path)"' create=yes
+
+- name: pyenv install python 3.12.4
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv install 3.12.4 -s
+  timeout: 600
+
+- name: pyenv global 3.12.4
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv global 3.12.4
+
+- name: pyenv rehash
+  shell: source ~/.zshrc && source ~/.zprofile && pyenv rehash
+
+- name: Install Poetry
+  shell: 'zsh -c "curl -sSL https://install.python-poetry.org | python3.12 -"'
+
+- name: add poetry to PATH
+  lineinfile: path=~/.zshrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
+
+- name: Clone RACOON AI (dev branch)
+  command: "gh repo clone Rione/ssl-RACOON-AI -- --branch dev"
+  ignore_errors: yes
+
+- name: Clone RACOON controller (dev branch)
+  command: "gh repo clone Rione/ssl-RACOON-controller -- --branch dev"
+  ignore_errors: yes
+
+- name: Clone RACOON GUI (dev branch)
+  command: "gh repo clone Rione/ssl-RACOON-GUI -- --branch dev"
+  ignore_errors: yes
+
+- name: Protobuf setup (clone)
+  command: "gh repo clone protocolbuffers/protobuf ${HOME}/.local/opt/protobuf -- -b v3.19.1 --depth=1 --recurse-submodules --shallow-submodules"
+  ignore_errors: yes
+
+- name: Protobuf setup (build)
+  shell: "cd ${HOME}/.local/opt/protobuf && ./autogen.sh && ./configure --prefix=${HOME}/.local/opt/protobuf && make -j4 && make install"
+  register: protobuf_build
+  timeout: 600
+  ignore_errors: yes
+
+- debug:
+    var: protobuf_build.stdout_lines
+
+- name: Protobuf setup (protoc link)
+  shell: mkdir -p ${HOME}/.local/bin && ln -s ${HOME}/.local/opt/protobuf/bin/* ${HOME}/.local/bin/
+  ignore_errors: yes
+
+- name: Protobuf setup (protoc path add)
+  lineinfile: path=~/.zshrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
+
+- name: Protobuf setup (PKG_CONFIG_PATH add)
+  lineinfile: path=~/.zshrc line='export PKG_CONFIG_PATH="${HOME}/.local/opt/protobuf/lib/pkgconfig:${PKG_CONFIG_PATH}"' create=yes
+  
+- name: AI setup
+  shell: "source ~/.zshrc && source ~/.zprofile && poetry env use 3.12.4 && poetry install"
+  args:
+    chdir: ./ssl-RACOON-AI
+  timeout: 600
+
+- name: Controller setup
+  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
+  args:
+    chdir: ./ssl-RACOON-controller
+  timeout: 600
+
+- name: GUI setup
+  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
+  args:
+    chdir: ./ssl-RACOON-GUI
+  timeout: 600
+
+- name: grSim setup (qt@5 PATH add)
+  lineinfile: path=~/.zshrc line='export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' create=yes
+
+- name: grSim setup (qt@5 LDFLAGS add)
+  lineinfile: path=~/.zshrc line='export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"' create=yes
+
+- name: grSim setup (qt@5 CPPFLAGS add)
+  lineinfile: path=~/.zshrc line='export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"' create=yes
+
+- name: grSim setup (clone grSim)
+  command: "gh repo clone RoboCup-SSL/grSim"
+  ignore_errors: yes
+
+- name: grSim setup (build)
+  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && make -j4"
+  args:
+    chdir: ./grSim
+  timeout: 600
