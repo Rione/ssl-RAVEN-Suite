@@ -24,8 +24,8 @@ else
   exit 1
 fi
 
-if [ $OS == 'Darwin' ]; then
+if [ "$OS" = 'Darwin' ]; then
   ./setup-darwin.sh
-elif [ $OS == 'Linux' ]; then
+elif [ "$OS" = 'Linux' ]; then
   ./setup-linux.sh
 fi
