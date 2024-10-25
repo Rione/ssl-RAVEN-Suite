@@ -15,7 +15,7 @@ wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo tee /etc
 sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-noble.list http://packages.lunarg.com/vulkan/lunarg-vulkan-noble.list
 sudo apt update
 
-sudo apt install -y qt6-base-dev qt6-declarative-dev qt6-tools-dev qml6-module-qtquick-controls qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-layouts qml6-module-qtquick-window qml6-module-qt-labs-platform libeigen3-dev libyaml-cpp-dev vulkan-sdk
+sudo apt install -y qt6-base-dev qt6-declarative-dev qt6-tools-dev qml6-module-qtcharts qml6-module-qtquick-controls qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-layouts qml6-module-qtquick-window qml6-module-qt-labs-platform libeigen3-dev libyaml-cpp-dev vulkan-sdk
 
 
 (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
