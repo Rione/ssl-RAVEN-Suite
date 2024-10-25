@@ -14,4 +14,18 @@ mv ssl-RACOON-Suite-master ~/ssl_ws/ssl-RACOON-Suite
 
 # Run the setup.sh
 cd ~/ssl_ws/ssl-RACOON-Suite
-./setup.sh
+
+if [ "$(uname)" == 'Darwin' ]; then
+  OS='Darwin'
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  OS='Linux'
+else
+  echo "Your platform ($(uname -a)) is not supported."
+  exit 1
+fi
+
+if [ $OS == 'Darwin']; then
+  ./setup-darwin.sh
+elif [ $OS == 'Linux']; then
+  ./setup-linux.sh
+fi
