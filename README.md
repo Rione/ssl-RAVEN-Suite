@@ -12,7 +12,7 @@ The ssl-RACOON-Suite is a toolset designed to assist installing develop environm
 ## Installation
 Use the following commands to install:
 ```sh
-/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Rione/ssl-RACOON-Suite/refs/heads/master/get-suite.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Rione/ssl-RACOON-Suite/refs/heads/master/get-suite.sh)"
 ```
 
 ## License

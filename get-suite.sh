@@ -25,7 +25,7 @@ else
 fi
 
 if [ "$OS" = 'Darwin' ]; then
-  ./setup-darwin.sh
+  zsh ./setup-darwin.sh
 elif [ "$OS" = 'Linux' ]; then
-  ./setup-linux.sh
+  bash ./setup-linux.sh
 fi
