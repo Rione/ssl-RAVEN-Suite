@@ -27,6 +27,7 @@ sudo apt install -y qt6-base-dev qt6-declarative-dev qt6-tools-dev qml6-module-q
 	&& sudo apt install gh -y
 
 gh auth login --git-protocol ssh --hostname github.com -w
+gh auth setup-git
 
 # Install the required ansible roles
 ansible-playbook -i inventory setup.yml
