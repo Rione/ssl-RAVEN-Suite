@@ -5,6 +5,7 @@
 export RACOON_HOME=/home/ssl_ws/
 
 # Install dependencies
+sudo apt update
 sudo apt install -y git ansible build-essential libffi-dev libssl-dev zlib1g-dev liblzma-dev libbz2-dev libreadline-dev libsqlite3-dev libopencv-dev tk-dev
 sudo apt install autoconf automake libtool curl make g++ unzip -y
 sudo apt install -y git build-essential cmake pkg-config qtbase5-dev \
@@ -18,7 +19,7 @@ sudo apt update
 sudo apt install -y qt6-base-dev qt6-declarative-dev qt6-tools-dev qml6-module-qtcharts qml6-module-qtquick-controls qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-layouts qml6-module-qtquick-window qml6-module-qt-labs-platform libeigen3-dev libyaml-cpp-dev vulkan-sdk
 
 
-(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+(type -p wget >/dev/null || (sudo apt-get install wget -y)) \
 	&& sudo mkdir -p -m 755 /etc/apt/keyrings \
 	&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
 	&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
