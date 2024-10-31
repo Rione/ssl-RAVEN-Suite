@@ -9,6 +9,7 @@ The ssl-RACOON-Suite is a toolset designed to assist installing develop environm
 ## Requirements
 - macOS (Tested on fresh M3 Air)
 - Ubuntu (Tested on fresh Ubuntu 24.04)
+- Windows (Tested on fresh WSL2, Ubuntu 24.04.1)
 
 ## Installation
 Use the following commands to install:
