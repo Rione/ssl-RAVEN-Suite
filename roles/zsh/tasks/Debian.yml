@@ -8,6 +8,9 @@
     prompt: "GitHub メールアドレスを指定してください: "
   register: emailinput
 
+- name: rioneprofile path
+  lineinfile: path=~/.bashrc line='. ~/.rioneprofile' create=yes
+
 - name: Git Username and Email setting
   shell: git config --global user.email "{{ emailinput.user_input }}" && git config --global user.name "{{ usernameinput.user_input }}"
 
@@ -16,7 +19,7 @@
   ignore_errors: yes
 
 - name: anyenv path
-  lineinfile: path=~/.bashrc line='export PATH="${HOME}/.anyenv/bin:$PATH"' create=yes
+  lineinfile: path=~/.rioneprofile line='export PATH="${HOME}/.anyenv/bin:$PATH"' create=yes
 
 - name: anyenv checkout check
   # if exists delete directory
@@ -30,37 +33,37 @@
 - debug:
     var: anyenv_checkout.stdout_lines
 
-- name: Write anyenv init scripts to ~/.bashrc
-  lineinfile: path=~/.bashrc line='eval "$(anyenv init -)"' create=yes
+- name: Write anyenv init scripts to ~/.rioneprofile
+  lineinfile: path=~/.rioneprofile line='eval "$(anyenv init -)"' create=yes
   run_once: true
 
 - name: Install Pyenv
-  shell: ". ~/.bashrc && anyenv install pyenv -f"
+  shell: ". ~/.rioneprofile && anyenv install pyenv -f"
 
-- name: Write pyenv init scripts to ~/.bashrc (1)
-  lineinfile: path=~/.bashrc line='export PYENV_ROOT="$HOME/.pyenv"' create=yes
+- name: Write pyenv init scripts to ~/.rioneprofile (1)
+  lineinfile: path=~/.rioneprofile line='export PYENV_ROOT="$HOME/.pyenv"' create=yes
 
-- name: Write pyenv init scripts to ~/.bashrc (2)
-  lineinfile: path=~/.bashrc line='[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' create=yes
+- name: Write pyenv init scripts to ~/.rioneprofile (2)
+  lineinfile: path=~/.rioneprofile line='[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' create=yes
 
-- name: Write pyenv init scripts to ~/.bashrc (3)
-  lineinfile: path=~/.bashrc line='eval "$(pyenv init --path)"' create=yes
+- name: Write pyenv init scripts to ~/.rioneprofile (3)
+  lineinfile: path=~/.rioneprofile line='eval "$(pyenv init --path)"' create=yes
 
 - name: pyenv install python 3.12.3
-  shell: ". ~/.bashrc && pyenv install 3.12.3 -s"
+  shell: ". ~/.rioneprofile && pyenv install 3.12.3 -s"
   timeout: 600
 
 - name: pyenv global 3.12.3
-  shell: ". ~/.bashrc && pyenv global 3.12.3"
+  shell: ". ~/.rioneprofile && pyenv global 3.12.3"
 
 - name: pyenv rehash
-  shell: ". ~/.bashrc && pyenv rehash"
+  shell: ". ~/.rioneprofile && pyenv rehash"
 
 - name: Install Poetry
   shell: "curl -sSL https://install.python-poetry.org | python3.12 -"
 
 - name: add poetry to PATH
-  lineinfile: path=~/.bashrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
+  lineinfile: path=~/.rioneprofile line='export PATH="$HOME/.local/bin:$PATH"' create=yes
 
 - name: Clone RACOON AI (dev branch)
   command: "gh repo clone Rione/ssl-RACOON-AI -- --branch dev"
@@ -92,25 +95,25 @@
   ignore_errors: yes
 
 - name: Protobuf setup (protoc path add)
-  lineinfile: path=~/.bashrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
+  lineinfile: path=~/.rioneprofile line='export PATH="$HOME/.local/bin:$PATH"' create=yes
 
 - name: Protobuf setup (PKG_CONFIG_PATH add)
-  lineinfile: path=~/.bashrc line='export PKG_CONFIG_PATH="${HOME}/.local/opt/protobuf/lib/pkgconfig:${PKG_CONFIG_PATH}"' create=yes
+  lineinfile: path=~/.rioneprofile line='export PKG_CONFIG_PATH="${HOME}/.local/opt/protobuf/lib/pkgconfig:${PKG_CONFIG_PATH}"' create=yes
   
 - name: AI setup
-  shell: ". ~/.bashrc && poetry env use 3.12.4 && PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring poetry install"
+  shell: ". ~/.rioneprofile && poetry env use 3.12.4 && PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring poetry install"
   args:
     chdir: ./ssl-RACOON-AI
   timeout: 600
 
 - name: Controller setup
-  shell: ". ~/.bashrc && mkdir -p ./build && cd ./build && cmake .. && make -j4"
+  shell: ". ~/.rioneprofile && mkdir -p ./build && cd ./build && cmake .. && make -j4"
   args:
     chdir: ./ssl-RACOON-controller
   timeout: 600
 
 - name: GUI setup
-  shell: ". ~/.bashrc && mkdir -p ./build && cd ./build && cmake .. && make -j4"
+  shell: ". ~/.rioneprofile && mkdir -p ./build && cd ./build && cmake .. && make -j4"
   args:
     chdir: ./ssl-RACOON-GUI
   timeout: 600
@@ -120,7 +123,7 @@
   ignore_errors: yes
 
 - name: grSim setup (build)
-  shell: ". ~/.bashrc && mkdir -p ./build && cd ./build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && make -j4"
+  shell: ". ~/.rioneprofile && mkdir -p ./build && cd ./build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && make -j4"
   args:
     chdir: ./grSim
   timeout: 600
