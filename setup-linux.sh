@@ -6,7 +6,7 @@ export RACOON_HOME=/home/ssl_ws/
 
 # Install dependencies
 sudo apt update
-sudo apt install -y git ansible build-essential libffi-dev libssl-dev zlib1g-dev liblzma-dev libbz2-dev libreadline-dev libsqlite3-dev libopencv-dev tk-dev
+sudo apt install -y git ansible build-essential libffi-dev libssl-dev zlib1g-dev liblzma-dev libbz2-dev libreadline-dev libsqlite3-dev libopencv-dev tk-dev libsdl2-dev
 sudo apt install autoconf automake libtool curl make g++ unzip -y
 sudo apt install -y git build-essential cmake pkg-config qtbase5-dev \
                    libqt5opengl5-dev libgl1-mesa-dev libglu1-mesa-dev \

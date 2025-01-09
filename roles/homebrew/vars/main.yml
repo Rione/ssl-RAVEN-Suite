@@ -18,3 +18,4 @@ packages:
   - { name: pkg-config, state: present }
   - { name: ode, state: present }
   - { name: qt@5, state: present }
+  - { name: sdl2, state: present }
