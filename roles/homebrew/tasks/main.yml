@@ -6,6 +6,6 @@
   - name: OS Logic
     include_tasks: "{{ ansible_os_family }}.yml"
     when:
-    - ansible_distribution == "Darwin"
+    - ansible_os_family == "Darwin"
 
 

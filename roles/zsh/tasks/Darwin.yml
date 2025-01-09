@@ -20,11 +20,18 @@
   shell: "[ -e ~/.config/anyenv/anyenv-install ] && rm -rf ~/.config/anyenv/anyenv-install"
   ignore_errors: yes
 
+- name: anyenv install
+  shell: git clone https://github.com/anyenv/anyenv ~/.anyenv
+  ignore_errors: yes
+
+- name: anyenv path
+  lineinfile: path=~/.zshrc line='export PATH="${HOME}/.anyenv/bin:$PATH"' create=yes
+
 - name: anyenv checkout
   shell: git clone https://github.com/anyenv/anyenv-install ~/.config/anyenv/anyenv-install
 
 - name: Install Pyenv
-  command: anyenv install pyenv -f
+  shell: . ~/.zshrc && anyenv install pyenv -f
 
 - name: Write pyenv init scripts to ~/.zshrc (1)
   lineinfile: path=~/.zshrc line='export PYENV_ROOT="$HOME/.pyenv"' create=yes
@@ -36,17 +43,17 @@
   lineinfile: path=~/.zshrc line='eval "$(pyenv init --path)"' create=yes
 
 - name: pyenv install python 3.12.4
-  shell: source ~/.zshrc && source ~/.zprofile && pyenv install 3.12.4 -s
+  shell: . ~/.zshrc && pyenv install 3.12.4 -s
   timeout: 600
 
 - name: pyenv global 3.12.4
-  shell: source ~/.zshrc && source ~/.zprofile && pyenv global 3.12.4
+  shell: . ~/.zshrc && pyenv global 3.12.4
 
 - name: pyenv rehash
-  shell: source ~/.zshrc && source ~/.zprofile && pyenv rehash
+  shell: . ~/.zshrc && pyenv rehash
 
 - name: Install Poetry
-  shell: 'zsh -c "curl -sSL https://install.python-poetry.org | python3.12 -"'
+  shell: '. ~/.zshrc && zsh -c "curl -sSL https://install.python-poetry.org | python3.12 -"'
 
 - name: add poetry to PATH
   lineinfile: path=~/.zshrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
@@ -87,19 +94,19 @@
   lineinfile: path=~/.zshrc line='export PKG_CONFIG_PATH="${HOME}/.local/opt/protobuf/lib/pkgconfig:${PKG_CONFIG_PATH}"' create=yes
   
 - name: AI setup
-  shell: "source ~/.zshrc && source ~/.zprofile && poetry env use 3.12.4 && poetry install"
+  shell: ". ~/.zshrc && poetry env use 3.12.4 && poetry install"
   args:
     chdir: ./ssl-RACOON-AI
   timeout: 600
 
 - name: Controller setup
-  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
+  shell: ". ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
   args:
     chdir: ./ssl-RACOON-controller
   timeout: 600
 
 - name: GUI setup
-  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
+  shell: ". ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
   args:
     chdir: ./ssl-RACOON-GUI
   timeout: 600
@@ -118,7 +125,7 @@
   ignore_errors: yes
 
 - name: grSim setup (build)
-  shell: "source ~/.zshrc && mkdir -p ./build && cd ./build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && make -j4"
+  shell: ". ~/.zshrc && mkdir -p ./build && cd ./build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && make -j4"
   args:
     chdir: ./grSim
   timeout: 600
