@@ -1,8 +1,8 @@
 #!/bin/sh
-# This script is used to set up the environment for the ssl-RACOON-Suite
+# This script is used to set up the environment for the ssl-RAVEN-Suite
 
 # Set the environment variables
-export RACOON_HOME=/home/ssl_ws/
+export RAVEN_HOME=/home/ssl_ws/
 
 # Certificates
 export SSL_CERT_FILE=/etc/ssl/cert.pem

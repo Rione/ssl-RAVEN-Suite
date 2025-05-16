@@ -58,16 +58,16 @@
 - name: add poetry to PATH
   lineinfile: path=~/.zshrc line='export PATH="$HOME/.local/bin:$PATH"' create=yes
 
-- name: Clone RACOON AI (dev branch)
-  command: "gh repo clone Rione/ssl-RACOON-AI -- --branch dev"
+- name: Clone RAVEN AI (dev branch)
+  command: "gh repo clone Rione/ssl-RAVEN-AI -- --branch dev"
   ignore_errors: yes
 
-- name: Clone RACOON controller (dev branch)
-  command: "gh repo clone Rione/ssl-RACOON-controller -- --branch dev"
+- name: Clone RAVEN controller (dev branch)
+  command: "gh repo clone Rione/ssl-RAVEN-controller -- --branch dev"
   ignore_errors: yes
 
-- name: Clone RACOON GUI (dev branch)
-  command: "gh repo clone Rione/ssl-RACOON-GUI -- --branch dev"
+- name: Clone RAVEN GUI (dev branch)
+  command: "gh repo clone Rione/ssl-RAVEN-GUI -- --branch dev"
   ignore_errors: yes
 
 - name: Protobuf setup (clone)
@@ -96,19 +96,19 @@
 - name: AI setup
   shell: ". ~/.zshrc && poetry env use 3.12.4 && poetry install"
   args:
-    chdir: ./ssl-RACOON-AI
+    chdir: ./ssl-RAVEN-AI
   timeout: 600
 
 - name: Controller setup
   shell: ". ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
   args:
-    chdir: ./ssl-RACOON-controller
+    chdir: ./ssl-RAVEN-controller
   timeout: 600
 
 - name: GUI setup
   shell: ". ~/.zshrc && mkdir -p ./build && cd ./build && cmake .. && make"
   args:
-    chdir: ./ssl-RACOON-GUI
+    chdir: ./ssl-RAVEN-GUI
   timeout: 600
 
 - name: grSim setup (qt@5 PATH add)

@@ -1,5 +1,5 @@
 ---
-- name: racoon-installer
+- name: raven-installer
   hosts: localhost
   connection: local
   # sudo実行有無（しないのでno）
