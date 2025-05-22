@@ -37,11 +37,3 @@ ansible-playbook -i inventory setup.yml
 cd ./grSim
 cd build && sudo make install
 
-
-
-# 全て完了です！と表示させる
-echo "=============================="
-echo "Setup is completed successfully!"
-echo "全て終了しました！お疲れ様でした！"
-echo "=============================="
-
