@@ -10,7 +10,7 @@ packages:
   - { name: automake, state: present }
   - { name: libtool, state: present }
   - { name: cmake, state: present }
-  - { name: boost, state: present }
+  - { name: boost@1.85, state: present }
   - { name: qt, state: present }
   - { name: eigen, state: present }
   - { name: yaml-cpp, state: present }
